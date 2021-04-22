@@ -1,0 +1,58 @@
+{
+  "name": "browser-extension-boilerplate",
+  "description": "Browser extension boilerplate",
+  "main": "gulpfile.js",
+  "version": "1.0.0",
+
+  "scripts": {
+    "start": "npm run dev && gulp server",
+    "dev": "gulp build --development",
+    "build": "gulp build --production",
+    "eslint:inspect": "eslint \"src/script/**/*.{js,ts}\" \"!./src/script/js/vendor/**\" --ignore-path .gitignore",
+    "eslint:fix": "npm run eslint:inspect -- --fix",
+    "stylelint:inspect": "stylelint \"./src/style/**/*.{css,scss}\" \"!./src/style/vendor/**\" --ignore-path .gitignore",
+    "stylelint:fix": "npm run stylelint:inspect -- --fix",
+    "linters:inspect": "npm-run-all -p stylelint:inspect eslint:inspect",
+    "linters:fix": "npm-run-all -p stylelint:fix eslint:fix",
+    "test": "gulp test"
+  },
+
+  "author": "Pireverdiev Karlen <karlen-ll@yandex.ru> (https://github.com/Karlen-ll)",
+  "email": "karlen-ll@yandex.ru",
+  "repository": "github:user/repo",
+  "homepage": "https://github.com/Karlen-ll/browser-extension-boilerplate#readme",
+  "url": "https://github.com/Karlen-ll/browser-extension-boilerplate/issues",
+
+  "devDependencies": {
+    "@babel/core": "^7.13.10",
+    "@babel/preset-env": "^7.13.10",
+    "autoprefixer": "^10.2.5",
+    "browser-sync": "^2.26.14",
+    "buffer-replace": "^1.0.0",
+    "del": "^6.0.0",
+    "eslint": "^7.23.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.22.1",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-beautify": "^3.0.0",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-mocha": "^8.0.0",
+    "gulp-mode": "^1.0.2",
+    "gulp-postcss": "^9.0.0",
+    "gulp-posthtml": "^3.0.5",
+    "gulp-sass": "^4.1.0",
+    "gulp-sourcemaps": "^3.0.0",
+    "gulp-tap": "^2.0.0",
+    "gulp-uglify": "^3.0.2",
+    "node-sass": "^5.0.0",
+    "path": "^0.12.7",
+    "postcss": "^8.2.8",
+    "posthtml-include": "^1.6.2",
+    "stylelint": "^13.12.0",
+    "stylelint-config-recommended-scss": "^4.2.0",
+    "stylelint-scss": "^3.19.0"
+  },
+
+  "license": "MIT"
+}

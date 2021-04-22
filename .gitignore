@@ -1,0 +1,32 @@
+# IDE folders
+node_modules/
+_result/
+dist/
+.idea/
+.git/
+
+
+# Packages
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Other
+*.log
+*.sql
+

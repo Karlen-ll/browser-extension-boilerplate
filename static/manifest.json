@@ -1,0 +1,28 @@
+{
+  "name": "Browser Extension",
+  "description": "Boilerplate by Pireverdiev Karlen.",
+  "manifest_version": 3,
+  "version": "1.0",
+
+  "icons": {
+    "16": "images/16.png",
+    "24": "images/24.png",
+    "32": "images/32.png",
+    "64": "images/64.png",
+    "128": "images/128.png"
+  },
+
+  "action": {
+    "default_title": "Browser Extension",
+    "default_popup": "popup.html",
+    "default_icon": "images/24.png"
+  },
+
+  "background": {
+    "service_worker": "background.js"
+  },
+
+  "permissions": [
+    "scripting"
+  ]
+}

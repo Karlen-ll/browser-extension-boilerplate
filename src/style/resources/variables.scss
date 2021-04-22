@@ -1,0 +1,127 @@
+@charset "utf-8";
+
+// --- --- ---
+// Colors
+
+$transparent-color: transparent;
+
+// Standard
+$white-color: #fff;
+$black-color: #1a1a1a;
+$gray-color: #d0d0d0;
+$warn-color:  #891616;
+
+// Brand
+$primary-color:      #2eaeb4;
+$secondary-color:    #252a5b;
+
+// Backgrounds
+$bg-color:           $white-color;
+$bg-primary-color:   $primary-color;
+$bg-secondary-color: $secondary-color;
+$bg-dark-color:      $black-color;
+$bg-gray-color:      $gray-color;
+$bg-silver-color:    $gray-color;
+$bg-warn-color:      $warn-color;
+
+// Borders
+$border-color:           #cad1d8;
+$border-primary-color:   $primary-color;
+$border-secondary-color: $secondary-color;
+$border-gray-color:      $gray-color;
+$border-warn-color:      $warn-color;
+
+// Shadow
+$shadow-opacity:         0.35;
+$shadow-color:           fade-out($black-color, $shadow-opacity);
+$shadow-primary-color:   fade-out($primary-color, $shadow-opacity);
+$shadow-secondary-color: fade-out($secondary-color, $shadow-opacity);
+
+// Typography
+$text-color:              $black-color;
+$text-primary-color:      $primary-color;
+$text-secondary-color:    $secondary-color;
+$text-darknessGray-color: #333;
+$text-dimGray-color:      #515151;
+$text-darkGray-color:     #868686;
+$text-gray-color:         $gray-color;
+$text-white-color:        $white-color;
+$text-warn-color:         $warn-color;
+
+// Links
+$text-link-color:       $black-color;
+$text-link-hover-color: $black-color;
+
+
+// --- --- ---
+// Fonts
+$base-font-family: 'Roboto';
+$fallback-font-family: 'Arial', 'Helvetica', sans-serif;
+$base-font-size: 16px;
+
+// Weights
+$thin:      100; // not use
+$light:     300; // not use
+$regular:   400;
+$medium:    500;
+$semi-bold: 600; // not use
+$bold:      700;
+
+// Size
+$font-size:     $base-font-size;
+$font-xs-size:  18px; // extra small
+$font-sm-size:  20px; // small
+$font-md-size:  24px; // medium
+$font-lg-size:  30px; // large
+$font-xl-size:  50px; // extra large
+$font-xxl-size: 60px; // extra extra large
+
+// Line-height
+$font-line:    1.31;
+$font-xs-line: 1.05; // extra small
+$font-sm-line: 1.23; // small
+$font-md-line: 1.44; // medium
+$font-lg-line: 1.56; // large
+$font-xl-line: 1.67; // extra large
+
+// Letter-spacing
+$font-sm-spacing: -0.015em;
+$font-md-spacing:  0.01em;
+$font-lg-spacing:  0.03em;
+
+
+// --- --- ---
+// Animations
+
+$anim-sm-duration: 0.25s;
+$anim-md-duration: 0.3s;
+$anim-lg-duration: 0.5s;
+
+// Function
+$animation-func: ease-in-out;
+
+// Durations
+$duration: 150ms;
+
+
+// --- --- ---
+// Margin
+$margin-xs:  15px; // extra small
+$margin-sm:  20px; // small
+$margin-md:  30px; // medium
+$margin-lg:  50px; // large
+$margin-xl:  75px; // extra large
+
+
+// --- --- ---
+// Padding
+$padding-xs:  15px; // extra small
+$padding-sm:  20px; // small
+$padding-md:  30px; // medium
+$padding-lg:  50px; // large
+$padding-xl:  75px; // extra large
+
+
+// --- --- ---
+// Other
+$header-height: 80px;

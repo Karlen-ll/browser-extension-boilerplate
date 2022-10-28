@@ -33,9 +33,9 @@ The only exception is a content script:
   * Runs in the context of the page, not the extension
   * Can communicate with the extension via messages if required
 
-## localStroage
+## localStorage
 
-Common to use localStroage for an extension to store state or options.
+Common to use localStorage for an extension to store state or options.
 Need to consider Incognito mode:
   * Store no information about the user
   * Easy to detect 

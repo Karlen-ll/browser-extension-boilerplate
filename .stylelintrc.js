@@ -1,19 +1,13 @@
-/**
- * Stylelint config
- * @see https://stylelint.io/
- * @see https://stylelint.io/user-guide/example-config */
 module.exports = {
   extends: ['stylelint-config-recommended-scss'],
 
   plugins: ['stylelint-scss'],
 
   rules: {
-    // SCSS rules
     'scss/at-mixin-parentheses-space-before': 'never',
     'scss/at-mixin-argumentless-call-parentheses': 'always',
     'scss/double-slash-comment-whitespace-inside': 'always',
 
-    // Base Stylelint rules
     'unit-case': 'lower',
     'property-case': 'lower',
     'color-hex-case': 'lower',

@@ -1,9 +1,7 @@
-const
-  assert = require('assert'),
-  foo = true;
+const assert = require('assert');
 
 describe('Sample test', function() {
   it('should return true', () => {
-    assert(foo);
+    assert(true);
   });
 });

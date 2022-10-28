@@ -1,32 +1,36 @@
 # IDE folders
 node_modules/
-_result/
 dist/
-.idea/
-.git/
 
+# IDE
+.idea
+.vscode
 
-# Packages
-*.7z
-*.dmg
-*.gz
-*.iso
-*.jar
-*.rar
-*.tar
-*.zip
+# env files
+.env
 
-# OS
+# Cashe
+.npm
+.eslintcache
+.stylelintcache
+.yarn-cache
+
+# MacOS
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
+.AppleDouble
+.LSOverride
+
+# Windows
 Thumbs.db
-desktop.ini
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Linux
+.fuse_hidden*
+.directory
+.Trash-*
 
 # Other
 *.log
 *.sql
-

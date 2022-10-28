@@ -1,0 +1,60 @@
+@mixin visually-hidden {
+  &:not(:focus):not(:active) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    border: 0;
+    padding: 0;
+    white-space: nowrap;
+    clip-path: inset(100%);
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+  }
+}
+
+@mixin smooth-font {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@mixin hover() {
+  &:-moz-focusring {
+    @content;
+  }
+
+  &:hover,
+  &:active,
+  &:focus-visible {
+    @content;
+  }
+}
+
+@mixin link($color, $activeColor: $color) {
+  @content;
+
+  &,
+  &:visited {
+    color: $color;
+  }
+
+  @include hover {
+    color: $activeColor;
+  }
+}
+
+@mixin text-overflow {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+@mixin webfont($family, $woffPath, $weight: normal, $style: normal) {
+  @font-face {
+    font-family: $family;
+    font-weight: $weight;
+    font-style: $style;
+    font-display: swap;
+    src: local($family), url($woffPath) format('woff');
+  }
+}

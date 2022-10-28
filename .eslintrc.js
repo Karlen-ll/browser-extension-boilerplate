@@ -1,20 +1,15 @@
-/**
- * Eslint rules
- * @see https://eslint.org/docs/rules/ */
 module.exports = {
-  root: true,
+  'root': true,
 
-  env: {
+  'env': {
     'browser': true,
     'es2021': true,
   },
 
-  globals: {
+  'globals': {
     chrome: 'readonly',
-    // jQuery
-    $: 'readonly',
-    jQuery: 'readonly',
-    // Tests
+
+    // Test variables
     it: 'readonly',
     expect: 'readonly',
     describe: 'readonly',
@@ -25,11 +20,11 @@ module.exports = {
     'sourceType': 'module',
   },
 
-  extends: ['google'],
+  'extends': ['google'],
 
-  plugins: ['import'],
+  'plugins': ['import'],
 
-  rules: {
+  'rules': {
     'import/first': 2,
     'import/order': 2,
     'import/default': 2,
@@ -44,29 +39,28 @@ module.exports = {
     'import/no-webpack-loader-syntax': 2,
     'import/no-useless-path-segments': 2,
     'import/no-relative-parent-imports': 2,
-    'import/max-dependencies': [2, {max: 15}],
+    'import/max-dependencies': [2, {max: 20}],
     'import/no-extraneous-dependencies': [2, {
       optionalDependencies: false,
       peerDependencies: false,
       devDependencies: true,
     }],
 
-    /** Configuration */
+    'require-jsdoc': 'off',
 
     'one-var': 'off',
     'no-invalid-this': 'off',
     'eqeqeq': ['error', 'always'],
-
-    'max-len': ['error', { 'code': 120 }],
+    'max-len': ['error', {'code': 120}],
 
     'valid-jsdoc': ['off', {
       'prefer': {
         'arg': 'param',
-          'argument': 'param',
-          'class': 'constructor',
-          'return': 'returns',
-          'virtual': 'abstract'
-      }
+        'argument': 'param',
+        'class': 'constructor',
+        'return': 'returns',
+        'virtual': 'abstract',
+      },
     }],
   },
 };

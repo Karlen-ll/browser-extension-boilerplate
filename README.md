@@ -1,6 +1,4 @@
 # Browser extension boilerplate
-author: **Karlen Pireverdiev**
-
 
 ## Project directory
 
@@ -17,11 +15,11 @@ The directory holding the manifest file can be added as an extension in develope
     * Alternatively, open this page by clicking on the Extensions menu button
       and selecting **Manage Extensions** at the bottom of the menu.
     * Alternatively, open this page by clicking on the Chrome menu,
-      hovering over **More Tools** then selecting **Extensions**.
+      hovering over **More Tools** than selecting **Extensions**.
 - Enable Developer Mode by clicking the toggle switch next to **Developer mode**.
 - Click the **Load unpacked** button and select the extension directory.
 
-![Upload Chrome extension](./assert/chrome.png)
+![Upload Chrome extension](/assert/chrome.png)
 
 
 # Instruction

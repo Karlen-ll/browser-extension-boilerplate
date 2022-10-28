@@ -1,15 +1,10 @@
 @charset "utf-8";
 
-// --- --- ---
-// Colors
-
-$transparent-color: transparent;
-
-// Standard
 $white-color: #fff;
 $black-color: #1a1a1a;
 $gray-color: #d0d0d0;
 $warn-color:  #891616;
+$null-color: transparent;
 
 // Brand
 $primary-color:      #2eaeb4;
@@ -34,8 +29,6 @@ $border-warn-color:      $warn-color;
 // Shadow
 $shadow-opacity:         0.35;
 $shadow-color:           fade-out($black-color, $shadow-opacity);
-$shadow-primary-color:   fade-out($primary-color, $shadow-opacity);
-$shadow-secondary-color: fade-out($secondary-color, $shadow-opacity);
 
 // Typography
 $text-color:              $black-color;
@@ -51,7 +44,6 @@ $text-warn-color:         $warn-color;
 // Links
 $text-link-color:       $black-color;
 $text-link-hover-color: $black-color;
-
 
 // --- --- ---
 // Fonts
@@ -89,7 +81,6 @@ $font-sm-spacing: -0.015em;
 $font-md-spacing:  0.01em;
 $font-lg-spacing:  0.03em;
 
-
 // --- --- ---
 // Animations
 
@@ -103,7 +94,6 @@ $animation-func: ease-in-out;
 // Durations
 $duration: 150ms;
 
-
 // --- --- ---
 // Margin
 $margin-xs:  15px; // extra small
@@ -112,7 +102,6 @@ $margin-md:  30px; // medium
 $margin-lg:  50px; // large
 $margin-xl:  75px; // extra large
 
-
 // --- --- ---
 // Padding
 $padding-xs:  15px; // extra small
@@ -120,7 +109,6 @@ $padding-sm:  20px; // small
 $padding-md:  30px; // medium
 $padding-lg:  50px; // large
 $padding-xl:  75px; // extra large
-
 
 // --- --- ---
 // Other

@@ -3,7 +3,7 @@
       _layouts/     Supporting html components
       README        this file
 
-> Subfolders whose names begin with `_` will not be included in the build
+> SubFolders whose names begin with `_` will not be included in the build
 
 Use HTML files as views for:
 * A popup
@@ -25,7 +25,7 @@ Another special page is an override page:
 
 index.html
 ```html
-<html>
+<html lang="eng">
 <head>
     <title>index.html</title>
 </head>

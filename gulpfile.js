@@ -1,184 +1,129 @@
 'use strict';
 
-const
-    { dest, src, watch, series, parallel } = require('gulp'),
+const {dest, src, watch, series, parallel} = require('gulp');
+const mode = require('gulp-mode')({
+  modes: ['production', 'development'],
+  default: 'development',
+  verbose: false,
+});
 
-    /**
-     * Project settings */
-    project = require('./project-config.js'),
+const {options, folder, pages, files} = require('./project-config.js');
 
-    /**
-     * Project mode */
-    mode = require('gulp-mode')({
-        modes: ["production", "development"],
-        default: "development",
-        verbose: false
-    }),
+function buildHtml() {
+  const include = require('posthtml-include');
+  const replace = require('buffer-replace');
+  const postHTML = require('gulp-posthtml');
+  const tap = require('gulp-tap');
 
-    /**
-     * Project mode is development?! */
-    isDevelopment = mode.development(),
+  return src([files.pages, files.ignore.html])
+      .pipe(postHTML([include({encoding: 'utf8', root: folder.pages})]))
+      .pipe(mode.development(tap((file) => {
+        if (pages[file.stem]) {
+          const mark = '</head>';
+          const style = pages[file.stem].style;
 
-    /** Project settings */
-    options = project.options,
-
-    /** Project directories */
-    folder = project.folder,
-
-    /** Project pages */
-    pages = project.pages,
-
-    /** Path to project files */
-    files = project.files;
-
-
-/**
- * Build HTML files */
-function build_html() {
-    const
-        include  = require('posthtml-include'),
-        replace  = require('buffer-replace'),
-        postHTML = require('gulp-posthtml'),
-        tap      = require('gulp-tap');
-
-    return src([files.pages, files.ignore.html])
-        .pipe(postHTML([include({
-            encoding: 'utf8',
-            root: folder.pages
-        })]))
-        // Transformation
-        .pipe(mode.development(tap(file => {
-            if (pages[file.stem]) {
-                const
-                    mark = '</head>',
-                    style = pages[file.stem].style;
-
-                // Add development <style> to content
-                if (style) file.contents = replace(Buffer(file.contents), mark, `${ style }\n${ mark }`);
-            }
-        })))
-        .pipe(dest(folder.dist.pages))
-}
-
-/**
- * Build SCSS files */
-function build_scss() {
-    const
-        autoprefixer = require('autoprefixer'),
-        sourceMap = require('gulp-sourcemaps'),
-        minCSS  = require('gulp-clean-css'),
-        postCSS = require('gulp-postcss'),
-        sass = require('gulp-sass');
-
-    return src(files.style)
-        .pipe(mode.development(sourceMap.init()))
-        .pipe(sass().on('error', sass.logError))
-        .pipe(postCSS([autoprefixer()]))
-        .pipe(mode.development(sourceMap.write('./')))
-        .pipe(mode.production(minCSS()))
-        .pipe(dest(folder.dist.style));
-}
-
-/**
- * Build js files */
-function build_js() {
-    const
-        uglify = require('gulp-uglify'),
-        babel = require("gulp-babel");
-
-    return src([files.script, files.ignore.test])
-        .pipe(babel(options.babel))
-        .pipe(mode.production(uglify()))
-        .pipe(dest(folder.dist.script));
-}
-
-/**
- * Testing js files */
-function test() {
-    const mocha = require('gulp-mocha');
-
-    return src(files.test, {read: false})
-        .pipe(mocha(options.mocha))
-}
-
-/**
- * Style minification */
-function beautify_html() {
-    const beautify = require('gulp-beautify');
-
-    return src(files.dist.pages)
-        .pipe(beautify.html(options.codeStyle))
-        .pipe(dest(folder.dist.pages));
-}
-
-/**
- * Copy assert files */
-function copy_files() {
-    return src([files.assert, files.ignore.md])
-        .pipe(dest(folder.dist.folder));
-}
-
-/**
- * Remove "dist" directory */
-function delete_dist() {
-    const del = require('del');
-    return del(folder.dist.folder);
-}
-
-/**
- * Monitor project files */
-function runWatcher() {
-    watch(folder.pages + '**/*.html', series(build_html, beautify_html));
-    watch(folder.style + '**/*.scss', series(build_scss));
-    watch([
-        folder.script + '**/*.test.js',
-        `!${ folder.script }**/*.test.js`
-    ], series(build_js));
-    // watch(folder.script + '**/*.test.js', series(test));
-    watch(folder.assert + '**/*.*', copy_files);
-}
-
-/**
- * Run local server */
-function runServer() {
-    const broSync = require('browser-sync').create();
-    broSync.init({
-        watch: true,
-        watchOptions: {
-            ignoreInitial: true,
-            ignored: ['*.log', '*.md']
-        },
-        server: {
-            index: "./",
-            baseDir: folder.dist.folder,
-            directory: true
+          if (style) {
+            // Add development <style> to content
+            file.contents = replace(Buffer.from(file.contents), mark, `${ style }\n${ mark }`);
+          }
         }
-    });
-    runWatcher();
+      })))
+      .pipe(dest(folder.dist.pages));
 }
 
-// TODO
-// https://www.npmjs.com/package/gulp-json-editor
-// https://www.npmjs.com/package/json
+function buildScss() {
+  const autoprefixer = require('autoprefixer');
+  const sourceMap = require('gulp-sourcemaps');
+  const minCSS = require('gulp-clean-css');
+  const postCSS = require('gulp-postcss');
+  const sass = require('gulp-sass')(require('sass'));
 
-/**
- * --- Exports tasks --- */
-exports.html = build_html;
-exports.scss = build_scss;
-exports.js   = build_js;
-exports.copy = copy_files;
+  return src(files.style)
+      .pipe(mode.development(sourceMap.init()))
+      .pipe(sass({syntax: 'scss', outputStyle: 'compressed'}).on('error', sass.logError))
+      .pipe(postCSS([autoprefixer()]))
+      .pipe(mode.development(sourceMap.write('./')))
+      .pipe(mode.production(minCSS()))
+      .pipe(dest(folder.dist.style));
+}
 
-exports.server = runServer;
-exports.watch  = runWatcher;
-exports.test   = test;
+function buildJs() {
+  const uglify = require('gulp-uglify');
+  const babel = require('gulp-babel');
 
-/**
- * --- Export main task --- */
+  return src([files.script, files.ignore.test])
+      .pipe(babel(options.babel))
+      .pipe(mode.production(uglify()))
+      .pipe(dest(folder.dist.script));
+}
+
+function test() {
+  const mocha = require('gulp-mocha');
+
+  return src(files.test, {read: false})
+      .pipe(mocha(options.mocha));
+}
+
+function beautifyHtml() {
+  const beautify = require('gulp-beautify');
+
+  return src(files.dist.pages)
+      .pipe(beautify.html(options.codeStyle))
+      .pipe(dest(folder.dist.pages));
+}
+
+function copyFiles() {
+  return src([files.assert, files.ignore.md])
+      .pipe(dest(folder.dist.folder));
+}
+
+function deleteDist() {
+  return require('del')(folder.dist.folder);
+}
+
+function runWatcher() {
+  watch(folder.pages + '**/*.html', series(buildHtml, beautifyHtml));
+  watch(folder.style + '**/*.scss', series(buildScss));
+  watch([
+    folder.script + '**/*.test.js',
+    `!${ folder.script }**/*.test.js`,
+  ], series(buildJs));
+  watch(folder.assert + '**/*.*', copyFiles);
+}
+
+function runLocalServer() {
+  const broSync = require('browser-sync').create();
+  broSync.init({
+    watch: true,
+    watchOptions: {
+      ignoreInitial: true,
+      ignored: ['*.log', '*.md'],
+    },
+    server: {
+      index: './',
+      baseDir: folder.dist.folder,
+      directory: true,
+    },
+  });
+  runWatcher();
+}
+
+/** Tasks */
+
+exports.html = buildHtml;
+exports.scss = buildScss;
+exports.js = buildJs;
+exports.copy = copyFiles;
+
+exports.server = runLocalServer;
+exports.watch = runWatcher;
+exports.test = test;
+
 exports.build = series(
-    delete_dist, parallel(
-        series(build_html, beautify_html),
-        series(build_scss),
-        series(build_js),
-        copy_files
-    )
+    deleteDist, parallel(
+        series(buildHtml, beautifyHtml),
+        series(buildScss),
+        series(buildJs),
+        copyFiles,
+    ),
 );

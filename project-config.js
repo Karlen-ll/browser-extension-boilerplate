@@ -3,33 +3,30 @@ const options = {
   dist: './dist/',
   assert: './static/',
 
-  /** Babel options */
+  /** Babel options.
+   * {@link https://github.com/browserslist/browserslist BrowsersList options} */
   babel: {
-    presets: [['@babel/preset-env', {
+    presets: [['@babel/preset-typescript', {
       'modules': false,
       'targets': '> 1%, last 2 versions, Firefox ESR, not ie <= 11, not dead',
-
-      /** {@link https://github.com/browserslist/browserslist More options} */
     }]],
   },
 
-  /** Mocha options */
+  /** Mocha options.
+   * {@link https://github.com/mochajs/mocha/tree/master/lib/reporters More reporter} */
   mocha: {
     reporter: 'list',
     exit: false,
-
-    /** {@link https://github.com/mochajs/mocha/tree/master/lib/reporters More reporter} */
   },
 
-  /** HTML code style */
+  /** HTML code style.
+   * {@link https://github.com/beautify-web/js-beautify More options} */
   codeStyle: {
     // eslint-disable-next-line no-tabs
     indent_char: '	',
     indent_size: 1,
     editorconfig: false,
     preserve_newlines: false,
-
-    /** {@link https://github.com/beautify-web/js-beautify More code style options} */
   },
 };
 
@@ -63,8 +60,8 @@ const folder = {
 const files = {
   pages: folder.pages + '**/*.html',
   style: folder.style + '*.scss',
-  script: folder.script + '**/*.js',
-  test: folder.script + '**/*.test.js',
+  script: folder.script + '**/*.ts',
+  test: folder.script + '**/*.test.ts',
   assert: folder.assert + '**/*',
   images: folder.images + '**/*',
 
@@ -77,7 +74,7 @@ const files = {
 
   ignore: {
     script: '!' + folder.script + '_**/*',
-    test: '!' + folder.script + '**/*.test.js',
+    test: '!' + folder.script + '**/*.test.ts',
     html: '!' + folder.pages + '_**/*',
     md: '!' + folder.assert + '**/*.md',
   },

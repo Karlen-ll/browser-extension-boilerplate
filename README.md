@@ -48,15 +48,15 @@ npm run start
 
 ### Linters
 ```
-eslint:inspect
+eslint
 eslint:fix
 ```
 ```
-stylelint:inspect
+stylelint
 stylelint:fix
 ```
 ```
-linters:inspect
+linters
 linters:fix
 ```
 

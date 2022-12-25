@@ -9,15 +9,17 @@
 </head>
 
 <body>
-  <div class="content">
-    <h1>Browser Extension</h1>
+  <div class="container">
+    <h1 class="header">Browser Extension</h1>
 
-    <div class="load-wrapper">
-      <div class="load">
-        <div class="line"></div>
-        <div class="line"></div>
-        <div class="line"></div>
-      </div>
+    <div class="body">
+      <label for="textarea" class="label">CSS code:</label>
+      <textarea id="textarea" class="textarea" rows="5" autofocus></textarea>
+    </div>
+
+    <div class="footer button-group">
+      <button id="add-button" class="button button-group__item">Add</button>
+      <button id="del-button" class="button button-group__item">Del</button>
     </div>
   </div>
 </body>

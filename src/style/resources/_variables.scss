@@ -4,27 +4,29 @@ $white-color: #fff;
 $black-color: #1a1a1a;
 $gray-color: #d0d0d0;
 $warn-color:  #891616;
-$null-color: transparent;
 
 // Brand
-$primary-color:      #2eaeb4;
-$secondary-color:    #252a5b;
+$primary-color:      #002a6c;
+$secondary-color:    #733cab;
 
 // Backgrounds
-$bg-color:           $white-color;
-$bg-primary-color:   $primary-color;
-$bg-secondary-color: $secondary-color;
-$bg-dark-color:      $black-color;
-$bg-gray-color:      $gray-color;
-$bg-silver-color:    $gray-color;
-$bg-warn-color:      $warn-color;
+$bg-color:                $white-color;
+$bg-white-color:          $white-color;
+$bg-primary-color:        $primary-color;
+$bg-primary-accent-color: #0041a0;
+$bg-secondary-color:      $secondary-color;
+$bg-dark-color:           $black-color;
+$bg-gray-color:           $gray-color;
+$bg-silver-color:         $gray-color;
+$bg-warn-color:           $warn-color;
 
 // Borders
-$border-color:           #cad1d8;
-$border-primary-color:   $primary-color;
-$border-secondary-color: $secondary-color;
-$border-gray-color:      $gray-color;
-$border-warn-color:      $warn-color;
+$border-color:                #cad1d8;
+$border-primary-color:        $primary-color;
+$border-primary-accent-color: #0041a0;
+$border-secondary-color:      $secondary-color;
+$border-gray-color:           $gray-color;
+$border-warn-color:           $warn-color;
 
 // Shadow
 $shadow-opacity:         0.35;
@@ -52,11 +54,11 @@ $fallback-font-family: 'Arial', 'Helvetica', sans-serif;
 $base-font-size: 16px;
 
 // Weights
-$thin:      100; // not use
-$light:     300; // not use
+$thin:      100;
+$light:     300;
 $regular:   400;
 $medium:    500;
-$semi-bold: 600; // not use
+$semi-bold: 600;
 $bold:      700;
 
 // Size

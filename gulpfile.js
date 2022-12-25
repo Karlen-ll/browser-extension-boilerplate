@@ -1,124 +1,111 @@
 'use strict';
 
-const {dest, src, watch, series, parallel} = require('gulp');
+const { dest, src, watch, series, parallel } = require('gulp');
+const sourceMap = require('gulp-sourcemaps');
 const mode = require('gulp-mode')({
   modes: ['production', 'development'],
   default: 'development',
   verbose: false,
 });
 
-const {options, folder, pages, files} = require('./project-config.js');
+const { config, foldersPath, filesPath } = require('./core/project-config.cts');
+const { addStyleToFile } = require('./core/helper.cts');
+const ROOT = './';
 
-function buildHtml() {
+function buildPages() {
   const include = require('posthtml-include');
-  const replace = require('buffer-replace');
   const postHTML = require('gulp-posthtml');
   const tap = require('gulp-tap');
 
-  return src([files.pages, files.ignore.html])
-      .pipe(postHTML([include({encoding: 'utf8', root: folder.pages})]))
-      .pipe(mode.development(tap((file) => {
-        if (pages[file.stem]) {
-          const mark = '</head>';
-          const style = pages[file.stem].style;
-
-          if (style) {
-            // Add development <style> to content
-            file.contents = replace(Buffer.from(file.contents), mark, `${ style }\n${ mark }`);
-          }
-        }
-      })))
-      .pipe(dest(folder.dist.pages));
+  return src([filesPath.pages, filesPath.ignore.html])
+      .pipe(postHTML([include({ ...config.postHTML, root: foldersPath.pages })], {}))
+      .pipe(mode.development(tap(addStyleToFile)))
+      .pipe(dest(foldersPath.dist.pages));
 }
 
-function buildScss() {
+function buildStyles() {
   const autoprefixer = require('autoprefixer');
   const sourceMap = require('gulp-sourcemaps');
   const minCSS = require('gulp-clean-css');
   const postCSS = require('gulp-postcss');
   const sass = require('gulp-sass')(require('sass'));
 
-  return src(files.style)
-      .pipe(mode.development(sourceMap.init()))
-      .pipe(sass({syntax: 'scss', outputStyle: 'compressed'}).on('error', sass.logError))
-      .pipe(postCSS([autoprefixer()]))
-      .pipe(mode.development(sourceMap.write('./')))
+  return src(filesPath.rootStyles)
+      .pipe(mode.development(sourceMap.init(config.sourcemaps)))
+      .pipe(sass(config.scss, {}).on('error', sass.logError))
+      .pipe(postCSS([autoprefixer()], config.postCSS))
+      .pipe(mode.development(sourceMap.write(ROOT, config.writeSourcemaps)))
       .pipe(mode.production(minCSS()))
-      .pipe(dest(folder.dist.style));
+      .pipe(dest(foldersPath.dist.style));
 }
 
 function buildScripts() {
   const uglify = require('gulp-uglify');
   const babel = require('gulp-babel');
 
-  return src([files.script, files.ignore.test])
-      .pipe(babel(options.babel))
+  return src([filesPath.scripts, filesPath.ignore.test])
+      .pipe(mode.development(sourceMap.init(config.sourcemaps)))
+      .pipe(babel(config.babel))
       .pipe(mode.production(uglify()))
-      .pipe(dest(folder.dist.script));
+      .pipe(mode.development(sourceMap.write(ROOT, config.writeSourcemaps)))
+      .pipe(dest(foldersPath.dist.script));
 }
 
-function test() {
+function runTests() {
   const mocha = require('gulp-mocha');
 
-  return src(files.test, {read: false})
-      .pipe(mocha(options.mocha));
+  return src(filesPath.tests, { read: false })
+      .pipe(mocha(config.mocha));
 }
 
-function beautifyHtml() {
+function beautifyPagesCode() {
   const beautify = require('gulp-beautify');
 
-  return src(files.dist.pages)
-      .pipe(beautify.html(options.codeStyle))
-      .pipe(dest(folder.dist.pages));
+  return src(filesPath.dist.pages)
+      .pipe(beautify.html(config.codeStyle))
+      .pipe(dest(foldersPath.dist.pages));
 }
 
-function copyFiles() {
-  return src([files.assert, files.ignore.md])
-      .pipe(dest(folder.dist.folder));
+function copyStaticFiles() {
+  return src([filesPath.asserts, filesPath.ignore.md])
+      .pipe(dest(foldersPath.dist.folder));
 }
 
-function deleteDist() {
-  return require('del')(folder.dist.folder);
+function deleteDistFolder() {
+  return require('del')(foldersPath.dist.folder);
 }
 
-function runWatcher() {
-  watch(folder.pages + '**/*.html', series(buildHtml, beautifyHtml));
-  watch(folder.style + '**/*.scss', series(buildScss));
-  watch([folder.script + '**/*.ts', `!${ folder.script }**/*.test.ts`], series(buildScripts));
-  watch(folder.assert + '**/*.*', copyFiles);
+function runFileWatcher() {
+  watch(filesPath.pages, series(buildPages, beautifyPagesCode));
+  watch(filesPath.styles, series(buildStyles));
+  watch([filesPath.scripts, filesPath.ignore.test], series(buildScripts));
+  watch(filesPath.asserts, copyStaticFiles);
 }
 
 function runLocalServer() {
-  const broSync = require('browser-sync').create();
-  broSync.init({
+  require('browser-sync').create().init({
     watch: true,
-    watchOptions: {
-      ignoreInitial: true,
-      ignored: ['*.log', '*.md'],
-    },
-    server: {
-      index: './',
-      baseDir: folder.dist.folder,
-      directory: true,
-    },
+    watchOptions: { ignoreInitial: true, ignored: ['*.log', '*.md'] },
+    server: { index: ROOT, directory: true, baseDir: foldersPath.dist.folder },
   });
-  runWatcher();
+
+  runFileWatcher();
 }
 
-exports.html = buildHtml;
-exports.scss = buildScss;
-exports.js = buildScripts;
-exports.copy = copyFiles;
+exports.ts = buildScripts;
+exports.html = buildPages;
+exports.scss = buildStyles;
+exports.copy = copyStaticFiles;
 
 exports.server = runLocalServer;
-exports.watch = runWatcher;
-exports.test = test;
+exports.watch = runFileWatcher;
+exports.test = runTests;
 
 exports.build = series(
-    deleteDist, parallel(
-        series(buildHtml, beautifyHtml),
-        series(buildScss),
+    deleteDistFolder, parallel(
+        series(buildPages, beautifyPagesCode),
+        series(buildStyles),
         series(buildScripts),
-        copyFiles,
+        copyStaticFiles,
     ),
 );

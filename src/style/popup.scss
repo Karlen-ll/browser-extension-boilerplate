@@ -3,6 +3,7 @@
 .textarea {
   max-width: 100%;
   display: -webkit-box;
+  font-family: monospace;
   text-overflow: ellipsis;
   background-color: $bg-white-color;
   padding: 0 7px;

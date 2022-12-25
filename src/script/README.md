@@ -11,15 +11,15 @@ We only need to create the background or event script files
 
 ## Background
 
-A background.js is useful and commonly used:
+A background.ts is useful and commonly used:
   * Runs in the background when the extension is used
   * Contains the main logic for the extension
   * Can take up a lot of memory
 
 ## Event
 
-An event.js is a light-weight alternative to a background.js:
-  * Just like a background.js in that it contains state for the extension
+An event.ts is a light-weight alternative to a background.ts:
+  * Just like a background.ts in that it contains state for the extension
   * Doesn't run all the time, just when required
 
 ## Content

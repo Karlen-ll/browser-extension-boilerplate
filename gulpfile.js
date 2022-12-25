@@ -47,7 +47,7 @@ function buildScss() {
       .pipe(dest(folder.dist.style));
 }
 
-function buildJs() {
+function buildScripts() {
   const uglify = require('gulp-uglify');
   const babel = require('gulp-babel');
 
@@ -84,10 +84,7 @@ function deleteDist() {
 function runWatcher() {
   watch(folder.pages + '**/*.html', series(buildHtml, beautifyHtml));
   watch(folder.style + '**/*.scss', series(buildScss));
-  watch([
-    folder.script + '**/*.test.js',
-    `!${ folder.script }**/*.test.js`,
-  ], series(buildJs));
+  watch([folder.script + '**/*.ts', `!${ folder.script }**/*.test.ts`], series(buildScripts));
   watch(folder.assert + '**/*.*', copyFiles);
 }
 
@@ -108,11 +105,9 @@ function runLocalServer() {
   runWatcher();
 }
 
-/** Tasks */
-
 exports.html = buildHtml;
 exports.scss = buildScss;
-exports.js = buildJs;
+exports.js = buildScripts;
 exports.copy = copyFiles;
 
 exports.server = runLocalServer;
@@ -123,7 +118,7 @@ exports.build = series(
     deleteDist, parallel(
         series(buildHtml, beautifyHtml),
         series(buildScss),
-        series(buildJs),
+        series(buildScripts),
         copyFiles,
     ),
 );

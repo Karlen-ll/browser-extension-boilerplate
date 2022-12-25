@@ -43,3 +43,63 @@ textarea {
 a {
   @include link($text-link-color, $text-link-hover-color);
 }
+
+.container {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: $bg-color;
+  color: $text-primary-color;
+  padding: $padding-xs;
+}
+
+.header {
+  font-size: 20px;
+  text-align: center;
+  font-family: monospace, serif;
+  font-weight: $semi-bold;
+  margin: 0 0 $margin-sm;
+}
+
+.body {
+  flex-shrink: 1;
+}
+
+.footer {
+  flex: 0;
+  margin-top: $margin-md;
+}
+
+.button {
+  min-width: 80px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  text-decoration: none;
+  transition-property: background-color, color, border;
+  transition-duration: $anim-md-duration;
+  cursor: pointer;
+  user-select: none;
+  border: 1px solid $border-primary-color;
+  color: $text-white-color;
+  background-color: $bg-primary-color;
+
+  @include hover() {
+    &:not(:disabled) {
+      border: 1px solid $border-primary-accent-color;
+      background-color: $bg-primary-accent-color;
+    }
+  }
+}
+
+.button-group {
+  display: flex;
+
+  &__item {
+    &:not(&:last-child) {
+      margin-right: 16px;
+    }
+  }
+}
